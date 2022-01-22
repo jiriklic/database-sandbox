@@ -1,0 +1,40 @@
+version: "3.7"
+
+services:
+  postgres:
+    container_name: timescaledb_postgis
+    image: timescale/timescaledb-postgis:latest-pg12
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-sandboxdb}
+      POSTGRES_USER: ${POSTGRES_USER:-pgadmin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+      POSTGIS_VERSION: ${POSTGIS_VERSION:-2.5.5}
+      PGDATA: /var/lib/postgresql/data
+    volumes:
+      - ./bin/timescaledb-postgis:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - dbnetwork
+    restart: unless-stopped
+  
+  pgadmin:
+    container_name: pgadmin4
+    image: dpage/pgadmin4
+    user: root:root
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+    volumes:
+      - ./bin/pgadmin/timescaledb-postgis:/var/lib/pgadmin
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
+    networks:
+      - dbnetwork
+    restart: unless-stopped
+
+networks:
+  dbnetwork:
+    driver: bridge
+
+
