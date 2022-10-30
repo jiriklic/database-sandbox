@@ -1,0 +1,20 @@
+version: "3.7"
+
+services:
+  postgres:
+    container_name: neo4j_database
+    image: neo4j:5.1.0-community
+    volumes:
+      - ./bin/neo4j:/data:rw
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    networks:
+      - dbnetwork
+    restart: unless-stopped
+
+networks:
+  dbnetwork:
+    driver: bridge
+
+
