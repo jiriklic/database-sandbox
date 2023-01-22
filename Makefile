@@ -19,6 +19,12 @@ timescaledb-up:
 timescaledb-down:
 	@docker-compose -f TimescaleDB/docker-compose.yml down
 
+sybase-up:
+	@docker-compose -f SybaseASE/docker-compose.yml up -d
+
+sybase-down:
+	@docker-compose -f SybaseASE/docker-compose.yml down
+
 help:
 	@echo "Available make targets:"
 	@echo " make help              - Print help"
@@ -28,4 +34,6 @@ help:
 	@echo " make postgresql-down   - Shut down PostgreSQL Docker container"
 	@echo " make timescaledb-up    - Run TimescaleDB Docker container"
 	@echo " make timescaledb-down  - Shut down TimescaleDB Docker container"
+	@echo " make sybase-up         - Run Sybase ASE Docker container"
+	@echo " make sybase-down       - Shut down Sybase ASE Docker container"
 	@echo ""
